@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscrição Confirmada - Festividade</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -105,9 +101,6 @@
 
         .button-container {
             margin-top: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
         }
 
         .btn {
@@ -128,34 +121,43 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-download {
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
-        }
-
-        .btn-resend {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-        }
-
         .info-text {
             color: #999;
             font-size: 14px;
             margin-top: 20px;
         }
-
-        .progress-container {
-            width: 100%;
-            background: #f0f0f0;
-            border-radius: 10px;
+        
+        .warning-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
             margin: 20px 0;
-            overflow: hidden;
-            display: none;
+            text-align: left;
         }
-
-        .progress-bar {
-            height: 6px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            width: 0%;
-            transition: width 0.5s ease;
+        
+        .warning-box strong {
+            color: #856404;
+        }
+        
+        .warning-box p {
+            color: #856404;
+            margin: 5px 0;
+        }
+        
+        .whatsapp-link {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        .whatsapp-link:hover {
+            background: #128C7E;
         }
     </style>
 </head>
@@ -165,13 +167,21 @@
         <h1>Inscrição Confirmada!</h1>
         <p class="subtitle">Sua inscrição foi enviada com sucesso para a Festividade da Assembleia de Deus Cachoeirinha.</p>
 
+        <div class="warning-box">
+            <strong>⚠️ ATENÇÃO - COMPROVANTE DE PAGAMENTO:</strong>
+            <p>Sua participação só será validada após o envio do comprovante PIX de R$ 50,00.</p>
+            <p><strong>Envie o comprovante para o WhatsApp:</strong></p>
+            <a href="https://wa.me/5583996008252" target="_blank" class="whatsapp-link">
+                📱 (83) 99600-8252
+            </a>
+            <p style="margin-top: 10px; font-size: 13px;">
+                Informe seu nome completo no comprovante. Este número também é a chave PIX.
+            </p>
+        </div>
+
         <div class="bible-verse">
             <div class="verse-text" id="verseText"></div>
             <div class="verse-reference" id="verseReference"></div>
-        </div>
-
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
         </div>
 
         <div class="peace-message">
@@ -180,393 +190,66 @@
 
         <div class="button-container">
             <a href="index.html" class="btn">Voltar ao Início</a>
-            <button id="downloadBtn" class="btn btn-download" style="display: none;">
-                📥 Baixar Certificado
-            </button>
-            <button id="resendBtn" class="btn btn-resend" style="display: none;">
-                📧 Reenviar Certificado por Email
-            </button>
         </div>
 
-        <p class="info-text">📧 Processando seu certificado...</p>
-        <p id="statusMessage" class="info-text" style="color: #667eea; margin-top: 10px; font-weight: bold;"></p>
-    </div>
-
-    <!-- Elemento oculto para gerar o certificado -->
-    <div id="certificate" style="position: absolute; left: -10000px; top: -10000px; width: 1120px; height: 790px; background: white; padding: 40px; font-family: 'Arial', sans-serif;">
-        <div style="border: 20px solid #1a1a1a; width: 100%; height: 100%; padding: 20px;">
-            <div style="border: 3px solid #d4af37; width: 100%; height: 100%; padding: 30px; text-align: center;">
-                <h1 style="font-family: 'Cinzel', serif; font-size: 48px; margin: 20px 0;">CERTIFICADO</h1>
-                <h2 style="font-family: 'Great Vibes', cursive; font-size: 36px; color: #d4af37; margin: 10px 0;">
-                    de Participação
-                </h2>
-                
-                <div style="margin: 40px 0;">
-                    <p style="font-size: 20px;">Certificamos que</p>
-                    <div id="certName" style="font-family: 'Great Vibes', cursive; font-size: 60px; color: #c0392b; margin: 20px 0;">
-                        Nome do Participante
-                    </div>
-                    <p style="font-size: 18px; max-width: 800px; margin: 20px auto;">
-                        participou com êxito do <strong>1º Seminário de Educação Cristã</strong>, 
-                        realizado pela Assembleia de Deus em Cachoeirinha-PB, sob a ministração 
-                        do pastor <strong>Elinaldo Renovato</strong>.
-                    </p>
-                    
-                    <div style="margin: 30px 0; font-size: 14px; line-height: 1.8;">
-                        <p style="margin: 0;"><strong>Data:</strong> 28 de Fevereiro de 2025</p>
-                        <p style="margin: 5px 0;"><strong>Tema:</strong> Desafios da Educação Cristã em uma Sociedade Pós-moderna</p>
-                        <p style="margin: 5px 0;"><strong>Local:</strong> Igreja Assembleia de Deus em Cachoeirinha-PB</p>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 40px; font-size: 16px;">
-                    <p>Emitido em: <span id="certDate">01/01/2024</span></p>
-                    <p style="margin-top: 10px; font-size: 14px; color: #666;">
-                        ID do Certificado: <span id="certId">000000</span>
-                    </p>
-                </div>
-            </div>
-        </div>
+        <p class="info-text">✅ Seus dados foram recebidos com sucesso!</p>
     </div>
 
     <script>
-        // ========== CONFIGURAÇÃO EMAILJS COM SUAS CREDENCIAIS ==========
-        const EMAILJS_CONFIG = {
-            SERVICE_ID: 'service_z7m5j9n',      // Seu Service ID
-            TEMPLATE_ID: 'template_8r16y2s',    // Seu Template ID  
-            PUBLIC_KEY: '_PbOpPwAk_OSrMeQa'     // Sua Public Key
-        };
-
-        // Inicializar EmailJS
-        emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
-
         // Versículos bíblicos
         const verses = [
-            { text: "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.", reference: "João 3:16" },
-            { text: "A graça do Senhor Jesus Cristo, e o amor de Deus, e a comunhão do Espírito Santo sejam com todos vós.", reference: "2 Coríntios 13:14" },
-            { text: "Portanto, se alguém está em Cristo, é nova criação. As coisas antigas já se foram; eis que surgiram coisas novas!", reference: "2 Coríntios 5:17" }
+            {
+                text: "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.",
+                reference: "João 3:16"
+            },
+            {
+                text: "A graça do Senhor Jesus Cristo, e o amor de Deus, e a comunhão do Espírito Santo sejam com todos vós.",
+                reference: "2 Coríntios 13:14"
+            },
+            {
+                text: "Portanto, se alguém está em Cristo, é nova criação. As coisas antigas já se foram; eis que surgiram coisas novas!",
+                reference: "2 Coríntios 5:17"
+            },
+            {
+                text: "Porque somos feitura de Deus, criados em Cristo Jesus para as boas obras, as quais Deus de antemão preparou para que andássemos nelas.",
+                reference: "Efésios 2:10"
+            },
+            {
+                text: "Alegra-te sempre no Senhor; outra vez digo, alegra-te. A vossa moderação seja conhecida de todos os homens. Perto está o Senhor.",
+                reference: "Filipenses 4:4-5"
+            },
+            {
+                text: "Porque o Senhor é bom; a sua misericórdia dura para sempre, e a sua fidelidade por todas as gerações.",
+                reference: "Salmos 100:5"
+            },
+            {
+                text: "Confiai no Senhor de todo o vosso coração e não vos estribes na vossa própria prudência. Reconhecei-o em todos os vossos caminhos, e ele endireitará as vossas veredas.",
+                reference: "Provérbios 3:5-6"
+            },
+            {
+                text: "Assim, pois, a fé vem pelo ouvir, e o ouvir pela palavra de Cristo.",
+                reference: "Romanos 10:17"
+            },
+            {
+                text: "Porque nada será impossível para Deus.",
+                reference: "Lucas 1:37"
+            },
+            {
+                text: "E a paz de Deus, que excede todo o entendimento, guardará o vosso coração e a vossa mente em Cristo Jesus.",
+                reference: "Filipenses 4:7"
+            }
         ];
-
-        // Variáveis globais
-        let certificateBlob = null;
-        let participantName = '';
-        let participantEmail = '';
-        let certificateId = '';
 
         // Função para obter versículo aleatório
         function getRandomVerse() {
             return verses[Math.floor(Math.random() * verses.length)];
         }
 
-        // Atualizar barra de progresso
-        function updateProgress(percent, message) {
-            const progressBar = document.getElementById('progressBar');
-            const progressContainer = document.getElementById('progressContainer');
-            const statusElement = document.getElementById('statusMessage');
-            
-            progressBar.style.width = percent + '%';
-            progressContainer.style.display = 'block';
-            statusElement.textContent = message;
-            
-            if (percent >= 100) {
-                setTimeout(() => {
-                    progressContainer.style.display = 'none';
-                }, 1000);
-            }
-        }
-
-        // Gerar ID único para o certificado
-        function generateCertificateId(name) {
-            const timestamp = Date.now().toString(36).toUpperCase();
-            const random = Math.random().toString(36).substr(2, 4).toUpperCase();
-            const nameCode = name.substring(0, 3).toUpperCase().replace(/\s/g, 'X');
-            return `ADC-${nameCode}-${timestamp}-${random}`;
-        }
-
-        // Função para gerar o PDF do certificado
-        async function generateCertificatePDF(name) {
-            try {
-                updateProgress(25, '🔄 Preparando certificado...');
-                
-                // Gerar ID único
-                certificateId = generateCertificateId(name);
-                
-                // Atualizar dados no certificado
-                document.getElementById('certName').textContent = name;
-                document.getElementById('certDate').textContent = new Date().toLocaleDateString('pt-BR');
-                document.getElementById('certId').textContent = certificateId;
-                
-                // Aguardar renderização
-                await new Promise(resolve => setTimeout(resolve, 300));
-                
-                updateProgress(50, '🎨 Gerando imagem do certificado...');
-                
-                // Gerar imagem com html2canvas
-                const certificateDiv = document.getElementById('certificate');
-                const canvas = await html2canvas(certificateDiv, {
-                    scale: 1.5,
-                    useCORS: true,
-                    backgroundColor: '#ffffff',
-                    logging: false
-                });
-                
-                updateProgress(75, '📄 Criando PDF...');
-                
-                // Criar PDF com jsPDF
-                const imageData = canvas.toDataURL('image/jpeg', 0.9);
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF({
-                    orientation: 'landscape',
-                    unit: 'mm',
-                    format: 'a4'
-                });
-                
-                const pageWidth = pdf.internal.pageSize.getWidth();
-                const pageHeight = pdf.internal.pageSize.getHeight();
-                pdf.addImage(imageData, 'JPEG', 0, 0, pageWidth, pageHeight);
-                
-                // Gerar blob do PDF
-                certificateBlob = pdf.output('blob');
-                
-                updateProgress(100, '✅ Certificado gerado com sucesso!');
-                
-                console.log('PDF gerado:', certificateBlob.size, 'bytes');
-                return true;
-                
-            } catch (error) {
-                console.error('Erro ao gerar PDF:', error);
-                updateStatus('❌ Erro ao gerar certificado: ' + error.message, '#e74c3c');
-                return false;
-            }
-        }
-
-        // Função para converter blob para base64 (necessário para EmailJS)
-        function blobToBase64(blob) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
-                reader.onerror = reject;
-                reader.readAsDataURL(blob);
-            });
-        }
-
-        // Função para enviar certificado via EmailJS
-        async function sendCertificateViaEmailJS(name, email) {
-            try {
-                if (!certificateBlob) {
-                    throw new Error('Certificado não gerado');
-                }
-                
-                updateProgress(0, '📧 Preparando envio do email...');
-                
-                // Converter PDF para base64
-                const base64Data = await blobToBase64(certificateBlob);
-                console.log('Base64 tamanho:', base64Data.length);
-                
-                updateProgress(30, '✉️ Conectando ao serviço de email...');
-                
-                // Preparar parâmetros para o template do EmailJS
-                const templateParams = {
-                    to_name: name,
-                    to_email: email || 'rodriguesamitay@gmail.com',
-                    from_name: 'Assembleia de Deus Cachoeirinha',
-                    subject: `Certificado de Participação - ${name}`,
-                    message: `Prezado(a) ${name},
-
-Segue em anexo seu certificado de participação no 1º Seminário de Educação Cristã realizado pela Assembleia de Deus em Cachoeirinha-PB.
-
-📅 Data: 28 de Fevereiro de 2025
-🎤 Ministrante: Pastor Elinaldo Renovato
-📜 ID do Certificado: ${certificateId}
-
-Que Deus continue abençoando sua vida e ministério!
-
-Atenciosamente,
-Assembleia de Deus Cachoeirinha-PB`,
-                    attachment: base64Data,
-                    attachment_name: `Certificado_${name.replace(/\s+/g, '_')}.pdf`,
-                    certificate_id: certificateId
-                };
-                
-                updateProgress(60, '🚀 Enviando certificado...');
-                
-                // Enviar email via EmailJS
-                const response = await emailjs.send(
-                    EMAILJS_CONFIG.SERVICE_ID,
-                    EMAILJS_CONFIG.TEMPLATE_ID,
-                    templateParams
-                );
-                
-                updateProgress(100, '✅ Certificado enviado com sucesso!');
-                
-                console.log('EmailJS response:', response);
-                return {
-                    success: true,
-                    message: 'Certificado enviado para seu email!'
-                };
-                
-            } catch (error) {
-                console.error('Erro EmailJS:', error);
-                return {
-                    success: false,
-                    message: `Erro ao enviar email: ${error.text || error.message}`
-                };
-            }
-        }
-
-        // Função para baixar certificado localmente
-        function downloadCertificate() {
-            if (!certificateBlob) {
-                alert('Certificado ainda não foi gerado. Aguarde...');
-                return;
-            }
-            
-            const url = URL.createObjectURL(certificateBlob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Certificado_${participantName.replace(/\s+/g, '_')}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            updateStatus('📥 Certificado baixado com sucesso!', '#27ae60');
-        }
-
-        // Função para reenviar email
-        async function resendCertificate() {
-            updateStatus('🔄 Reenviando certificado...', '#667eea');
-            
-            const result = await sendCertificateViaEmailJS(participantName, participantEmail);
-            
-            if (result.success) {
-                updateStatus('✅ Certificado reenviado para seu email!', '#27ae60');
-            } else {
-                updateStatus(`⚠️ ${result.message} Use o botão de download.`, '#e67e22');
-            }
-        }
-
-        // Função auxiliar para atualizar status
-        function updateStatus(message, color = '#667eea') {
-            const statusElement = document.getElementById('statusMessage');
-            statusElement.textContent = message;
-            statusElement.style.color = color;
-            
-            // Mostrar/esconder botões apropriados
-            const downloadBtn = document.getElementById('downloadBtn');
-            const resendBtn = document.getElementById('resendBtn');
-            
-            if (message.includes('enviado') || message.includes('sucesso')) {
-                downloadBtn.style.display = 'block';
-                resendBtn.style.display = 'block';
-            } else if (message.includes('Erro') || message.includes('erro')) {
-                downloadBtn.style.display = 'block';
-                downloadBtn.textContent = '📥 Baixar Certificado';
-            }
-        }
-
-        // Teste do EmailJS
-        async function testEmailJS() {
-            try {
-                console.log('Testando EmailJS...');
-                
-                const response = await emailjs.send(
-                    EMAILJS_CONFIG.SERVICE_ID,
-                    EMAILJS_CONFIG.TEMPLATE_ID,
-                    {
-                        to_name: 'Teste',
-                        to_email: 'rodriguesamitay@gmail.com',
-                        subject: 'Teste do Sistema de Certificados',
-                        message: 'Esta é uma mensagem de teste',
-                        certificate_id: 'TEST-123'
-                    }
-                );
-                
-                console.log('✅ EmailJS testado com sucesso:', response);
-                return true;
-            } catch (error) {
-                console.error('❌ Erro no teste do EmailJS:', error);
-                return false;
-            }
-        }
-
-        // Função principal do processo
-        async function processCertificate() {
-            try {
-                // Obter dados da URL
-                const urlParams = new URLSearchParams(window.location.search);
-                participantName = urlParams.get('name') || '';
-                participantEmail = urlParams.get('email') || '';
-                
-                if (!participantName.trim()) {
-                    updateStatus('⚠️ Nome não encontrado nos dados.', '#e74c3c');
-                    return;
-                }
-                
-                console.log('Processando certificado para:', participantName, 'Email:', participantEmail);
-                
-                // 1. Testar EmailJS primeiro
-                updateStatus('🔍 Testando conexão com serviço de email...', '#667eea');
-                const emailjsTested = await testEmailJS();
-                
-                if (!emailjsTested) {
-                    updateStatus('⚠️ Serviço de email temporariamente indisponível. Gerando certificado para download...', '#e67e22');
-                }
-                
-                // 2. Gerar PDF do certificado
-                const pdfGenerated = await generateCertificatePDF(participantName.trim());
-                if (!pdfGenerated) return;
-                
-                // 3. Enviar via EmailJS (se o teste foi bem)
-                if (emailjsTested && participantEmail) {
-                    updateStatus('📧 Enviando certificado para seu email...', '#667eea');
-                    
-                    const emailResult = await sendCertificateViaEmailJS(
-                        participantName.trim(), 
-                        participantEmail
-                    );
-                    
-                    if (emailResult.success) {
-                        updateStatus('✅ Certificado enviado para seu email! Verifique sua caixa de entrada.', '#27ae60');
-                    } else {
-                        updateStatus(`⚠️ ${emailResult.message} Clique em "Baixar Certificado".`, '#e67e22');
-                    }
-                } else if (!participantEmail) {
-                    // Sem email fornecido
-                    updateStatus('📄 Certificado gerado! Clique abaixo para baixar (email não fornecido).', '#3498db');
-                } else {
-                    // EmailJS falhou
-                    updateStatus('📄 Certificado gerado! Clique abaixo para baixar.', '#3498db');
-                }
-                
-                // Sempre mostrar botão de download
-                document.getElementById('downloadBtn').style.display = 'block';
-                
-            } catch (error) {
-                console.error('Erro no processo:', error);
-                updateStatus('❌ Erro no processamento do certificado: ' + error.message, '#e74c3c');
-                
-                // Mostrar botão de download mesmo com erro
-                document.getElementById('downloadBtn').style.display = 'block';
-                document.getElementById('downloadBtn').textContent = '📥 Tentar Baixar Certificado';
-            }
-        }
-
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mostrar versículo
-            const verse = getRandomVerse();
-            document.getElementById('verseText').textContent = `"${verse.text}"`;
-            document.getElementById('verseReference').textContent = `- ${verse.reference}`;
-            
-            // Configurar botões
-            document.getElementById('downloadBtn').addEventListener('click', downloadCertificate);
-            document.getElementById('resendBtn').addEventListener('click', resendCertificate);
-            
-            // Iniciar processamento após breve delay
-            setTimeout(() => {
-                processCertificate();
-            }, 1500);
+        // Mostrar versículo aleatório
+        window.addEventListener('load', function() {
+            const randomVerse = getRandomVerse();
+            document.getElementById('verseText').textContent = `"${randomVerse.text}"`;
+            document.getElementById('verseReference').textContent = `- ${randomVerse.reference}`;
         });
     </script>
 </body>
