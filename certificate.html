@@ -3,555 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Certificado - Festividade</title>
+    <title>Certificado Oficial - Ajuste de Logo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --gold: #d4af37;
+            --dark: #1a1a1a;
+            --red: #c0392b;
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Georgia', serif;
-            background: #f0f0f0;
+            background: #333;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 20px;
             min-height: 100vh;
+            padding: 20px;
+            font-family: 'Libre Baskerville', serif;
         }
 
-        .certificate-container {
-            background: #faf8f3;
-            width: 100%;
-            max-width: 1000px;
-            aspect-ratio: 1.4 / 1;
-            padding: 80px 60px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        /* Container Principal */
+        #certificate-container {
+            width: 1120px;
+            height: 790px;
+            background: white;
             position: relative;
             overflow: hidden;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
         }
 
-        /* Decoração de cantos */
-        .corner-decoration {
+        /* SVG de Fundo (Diagonais) */
+        .bg-shapes {
             position: absolute;
-            width: 150px;
-            height: 150px;
-            font-size: 80px;
-            opacity: 0.3;
-        }
-
-        .corner-top-left {
-            top: 20px;
-            left: 20px;
-        }
-
-        .corner-top-right {
-            top: 20px;
-            right: 20px;
-        }
-
-        .corner-bottom-left {
-            bottom: 20px;
-            left: 20px;
-        }
-
-        .corner-bottom-right {
-            bottom: 20px;
-            right: 20px;
-        }
-
-        /* Bordas decorativas */
-        .top-border {
-            position: absolute;
-            top: 30px;
-            left: 50px;
-            right: 50px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #c9a961, transparent);
-            border-top: 1px dashed #c9a961;
-        }
-
-        .bottom-border {
-            position: absolute;
-            bottom: 30px;
-            left: 50px;
-            right: 50px;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #c9a961, transparent);
-            border-bottom: 1px dashed #c9a961;
-        }
-
-        .left-border {
-            position: absolute;
-            left: 30px;
-            top: 50px;
-            bottom: 50px;
-            width: 2px;
-            background: linear-gradient(to bottom, transparent, #c9a961, transparent);
-            border-left: 1px dashed #c9a961;
-        }
-
-        .right-border {
-            position: absolute;
-            right: 30px;
-            top: 50px;
-            bottom: 50px;
-            width: 2px;
-            background: linear-gradient(to bottom, transparent, #c9a961, transparent);
-            border-right: 1px dashed #c9a961;
-        }
-
-        .certificate-content {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-        }
-
-        .certificate-title {
-            font-size: 56px;
-            color: #c9a961;
-            font-weight: bold;
-            letter-spacing: 8px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            font-family: 'Georgia', serif;
-        }
-
-        .certificate-subtitle {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 40px;
-            font-weight: normal;
-            letter-spacing: 3px;
-        }
-
-        .certificate-text {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .certificate-intro {
-            font-size: 15px;
-            color: #333;
-            margin-bottom: 30px;
-        }
-
-        .certificate-name {
-            font-size: 48px;
-            color: #c9a961;
-            font-weight: bold;
-            margin: 25px 0;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            border-bottom: 3px solid #333;
-            padding-bottom: 15px;
-            font-family: 'Georgia', serif;
-        }
-
-        .bible-verse {
-            font-size: 14px;
-            color: #333;
-            font-style: italic;
-            margin: 30px 0;
-            line-height: 1.6;
-        }
-
-        .seal-container {
-            margin: 30px 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        .seal {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #f4d03f, #c9a961, #8b7500);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset -2px -2px 5px rgba(0, 0, 0, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            font-size: 70px;
-        }
-
-        .seal::before {
-            content: '';
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            border: 3px solid rgba(139, 117, 0, 0.5);
-        }
-
-        .seal::after {
-            content: '★';
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 40px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .ribbon {
-            position: absolute;
-            width: 140px;
-            height: 40px;
-            background: linear-gradient(135deg, #c9a961 0%, #e6d5a8 50%, #c9a961 100%);
-            top: 90px;
-            transform: rotate(15deg);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .ribbon::before,
-        .ribbon::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            width: 0;
-            height: 0;
-            border-style: solid;
-        }
-
-        .ribbon::before {
+            top: 0;
             left: 0;
-            border-width: 0 20px 20px 0;
-            border-color: transparent #8b7500 transparent transparent;
-        }
-
-        .ribbon::after {
-            right: 0;
-            border-width: 20px 20px 0 0;
-            border-color: #8b7500 transparent transparent transparent;
-        }
-
-        .footer-section {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 50px;
             width: 100%;
-            padding-top: 20px;
-            border-top: 2px solid #c9a961;
+            height: 100%;
+            z-index: 1;
         }
 
-        .signature-block {
-            text-align: center;
-            flex: 1;
-        }
-
-        .signature-line {
-            border-top: 2px solid #333;
-            width: 140px;
-            margin: 0 auto 10px;
-        }
-
-        .signature-name {
-            font-size: 11px;
-            color: #333;
-            font-weight: bold;
-            margin: 5px 0;
-        }
-
-        .date-block {
-            font-size: 11px;
-            color: #333;
-            text-align: center;
-        }
-
-        /* Logos nos cantos */
-        .logo-container {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Molduras */
+        .outer-border {
+            border: 15px solid var(--dark);
+            width: 100%;
+            height: 100%;
+            position: relative;
             z-index: 10;
+            padding: 15px;
+            display: flex;
         }
 
-        .logo-top-left {
-            top: 20px;
-            left: 20px;
+        .inner-border {
+            border: 2px solid var(--gold);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 60px;
+            position: relative;
         }
 
-        .logo-top-right {
-            top: 20px;
-            right: 20px;
+        /* Cabeçalho e Logos - CORREÇÃO DO ASPECT RATIO */
+        .header-logos {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            z-index: 20;
         }
 
-        .logo-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+        .logo-box { 
+            text-align: center; 
+            width: 150px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .button-container {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            z-index: 2;
+        .logo-img { 
+            width: 100px; /* Largura fixa */
+            height: auto;  /* Altura automática para manter a proporção original */
+            max-height: 100px; /* Garante que não fique gigante */
+            display: block;
+        }
+        
+        .logo-text { 
+            font-size: 11px; 
+            font-weight: bold; 
+            color: white; 
+            text-transform: uppercase;
+            margin-top: 8px;
+            width: 120%; /* Permite que o texto respire um pouco */
         }
 
-        .btn {
-            background: #c9a961;
+        /* Conteúdo de Texto */
+        .title {
+            font-family: 'Cinzel', serif;
+            font-size: 72px;
+            color: var(--dark);
+            margin-top: 10px;
+            border-bottom: 3px solid var(--gold);
+            padding: 0 40px;
+        }
+
+        .subtitle {
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            font-size: 22px;
+            margin: 15px 0 35px 0;
+        }
+
+        .name {
+            font-family: 'Great Vibes', cursive;
+            font-size: 90px;
+            color: var(--dark);
+            margin: 10px 0;
+        }
+
+        .event-text {
+            font-size: 20px;
+            text-align: center;
+            max-width: 800px;
+            line-height: 1.6;
+        }
+
+        .verse {
+            font-size: 15px;
+            font-style: italic;
+            color: #444;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Assinaturas */
+        .footer-signatures {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: auto; 
+            padding-bottom: 40px;
+        }
+
+        .sig-block { width: 300px; text-align: center; }
+        .sig-line { border-top: 2px solid var(--dark); margin-bottom: 8px; }
+        .sig-name { font-size: 17px; font-weight: bold; }
+        .sig-role { font-size: 13px; }
+
+        /* Botão */
+        .btn-download {
+            margin-top: 25px;
+            padding: 15px 40px;
+            background: #27ae60;
             color: white;
-            padding: 10px 16px;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
-            font-size: 13px;
-            margin-left: 8px;
-            transition: background 0.3s;
+            font-size: 18px;
             font-weight: bold;
-        }
-
-        .btn:hover {
-            background: #8b7500;
-        }
-
-        /* Esconder elementos ao exportar */
-        .hide-on-export {
-            display: none;
-        }
-
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-
-            .certificate-container {
-                box-shadow: none;
-                max-width: 100%;
-                aspect-ratio: auto;
-            }
-
-            .button-container {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .certificate-container {
-                padding: 40px 25px;
-                aspect-ratio: auto;
-            }
-
-            .certificate-title {
-                font-size: 32px;
-            }
-
-            .certificate-name {
-                font-size: 28px;
-            }
-
-            .footer-section {
-                flex-direction: column;
-                gap: 30px;
-            }
-
-            .seal {
-                width: 100px;
-                height: 100px;
-                font-size: 50px;
-            }
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
-    <div class="certificate-container" id="certificate">
-        <div class="top-border"></div>
-        <div class="bottom-border"></div>
-        <div class="left-border"></div>
-        <div class="right-border"></div>
 
-        <div class="corner-decoration corner-top-left">🍃</div>
-        <div class="corner-decoration corner-top-right">🍃</div>
-        <div class="corner-decoration corner-bottom-left">🍃</div>
-        <div class="corner-decoration corner-bottom-right">🍃</div>
+    <div id="certificate-container">
+        <svg class="bg-shapes" viewBox="0 0 1120 790" preserveAspectRatio="none">
+            <polygon points="0,0 350,0 120,790 0,790" fill="#c0392b" />
+            <polygon points="0,0 280,0 100,790 0,790" fill="#1a1a1a" />
+            <polygon points="1120,350 1120,790 850,790" fill="#c0392b" />
+        </svg>
 
-        <!-- Logos nos cantos -->
-        <div class="logo-container logo-top-left">
-            <img src="image/logo-ad.png" alt="Logo AD">
-        </div>
-        <div class="logo-container logo-top-right">
-            <img src="image/logo-comadepd.png" alt="Logo Comadepd">
-        </div>
+        <div class="outer-border">
+            <div class="inner-border">
+                
+                <header class="header-logos">
+                    <div class="logo-box">
+                        <img src="image/logo-ad.png" class="logo-img" alt="Logo AD">
+                        <span class="logo-text">AD CACHOEIRINHA</span>
+                    </div>
+                    <div class="logo-box">
+                        <img src="image/logo-comadepd.png" class="logo-img" alt="Logo COMADEP">
+                    </div>
+                </header>
 
-        <div class="certificate-content">
-            <div class="certificate-title">Certificado</div>
-            <div class="certificate-subtitle">Participação</div>
+                <h1 class="title">CERTIFICADO</h1>
+                <p class="subtitle">PARTICIPAÇÃO</p>
 
-            <div class="certificate-intro">Certifico que</div>
+                <p style="font-size: 22px; font-style: italic;">Certifico que</p>
+                <h2 class="name" id="userName">Nome do Participante</h2>
 
-            <div class="certificate-name" id="participantName">Nome Aqui</div>
+                <p class="event-text">
+                    participou com êxito do <strong>1º Seminário de Educação Cristã</strong> realizado pela Assembleia de Deus em Cachoeirinha-PB.
+                </p>
 
-            <div class="certificate-text">
-                participou com êxito do<br>
-                <strong>1º Seminário de Educação Cristã</strong><br>
-                realizado pela Assembleia de Deus em Cachoeirinha-PB
-            </div>
+                <div class="verse" id="userVerse"></div>
 
-            <div class="seal-container">
-                <div class="seal">
-                    <div class="ribbon"></div>
+                <div class="footer-signatures">
+                    <div class="sig-block">
+                        <div class="sig-line"></div>
+                        <p class="sig-name">Pastor Elinaldo Renovato</p>
+                        <p class="sig-role">Ministrante</p>
+                    </div>
+
+                    <div class="sig-block" style="font-size: 14px;">
+                        Cachoeirinha - PB, <span id="currentDate"></span>
+                    </div>
+
+                    <div class="sig-block">
+                        <div class="sig-line"></div>
+                        <p class="sig-name">Pastor João Venâncio</p>
+                        <p class="sig-role">Pastor Local</p>
+                    </div>
                 </div>
             </div>
-
-            <div class="bible-verse" id="bibleVerse">"Versículo aqui"</div>
-
-            <div class="footer-section">
-                <div class="signature-block">
-                    <div class="signature-line"></div>
-                    <div class="signature-name">Pastor Elinaldo Renovato</div>
-                    <div class="signature-name" style="font-size: 10px;">Ministrante</div>
-                </div>
-                <div class="signature-block">
-                    <div class="signature-line"></div>
-                    <div class="signature-name">Pastor João Venâncio</div>
-                    <div class="signature-name" style="font-size: 10px;">Pastor Local</div>
-                </div>
-                <div class="date-block">
-                    <div id="certificateDate" style="margin-bottom: 20px;"></div>
-                    <div style="font-size: 10px; font-style: italic;">Cachoeirinha - PB</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="button-container">
-            <button class="btn" onclick="downloadPDF()">📥 PDF</button>
-            <button class="btn" onclick="downloadImage()">🖼️ Imagem</button>
-            <button class="btn" onclick="window.print()">🖨️ Imprimir</button>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <button class="btn-download" onclick="downloadPNG()">📥 BAIXAR CERTIFICADO EM PNG</button>
 
     <script>
         const verses = [
-            {
-                text: "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.",
-                reference: "João 3:16"
-            },
-            {
-                text: "A graça do Senhor Jesus Cristo, e o amor de Deus, e a comunhão do Espírito Santo sejam com todos vós.",
-                reference: "2 Coríntios 13:14"
-            },
-            {
-                text: "Portanto, se alguém está em Cristo, é nova criação. As coisas antigas já se foram; eis que surgiram coisas novas!",
-                reference: "2 Coríntios 5:17"
-            },
-            {
-                text: "Porque somos feitura de Deus, criados em Cristo Jesus para as boas obras, as quais Deus de antemão preparou para que andássemos nelas.",
-                reference: "Efésios 2:10"
-            },
-            {
-                text: "Alegra-te sempre no Senhor; outra vez digo, alegra-te. A vossa moderação seja conhecida de todos os homens. Perto está o Senhor.",
-                reference: "Filipenses 4:4-5"
-            },
-            {
-                text: "Porque o Senhor é bom; a sua misericórdia dura para sempre, e a sua fidelidade por todas as gerações.",
-                reference: "Salmos 100:5"
-            },
-            {
-                text: "Confiai no Senhor de todo o vosso coração e não vos estribes na vossa própria prudência. Reconhecei-o em todos os vossos caminhos, e ele endireitará as vossas veredas.",
-                reference: "Provérbios 3:5-6"
-            },
-            {
-                text: "Assim, pois, a fé vem pelo ouvir, e o ouvir pela palavra de Cristo.",
-                reference: "Romanos 10:17"
-            },
-            {
-                text: "Porque nada será impossível para Deus.",
-                reference: "Lucas 1:37"
-            },
-            {
-                text: "E a paz de Deus, que excede todo o entendimento, guardará o vosso coração e a vossa mente em Cristo Jesus.",
-                reference: "Filipenses 4:7"
-            },
-            {
-                text: "Todo aquele que em mim crê, ainda que esteja morto, viverá.",
-                reference: "João 11:25"
-            },
-            {
-                text: "Porque pela graça sois salvos, por meio da fé; e isto não vem de vós, é dom de Deus.",
-                reference: "Efésios 2:8"
-            }
+            { t: "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho.", r: "Salmos 119:105" },
+            { t: "Procura apresentar-te a Deus aprovado, como obreiro que não tem de que se envergonhar.", r: "2 Timóteo 2:15" }
         ];
 
-        function getRandomVerse() {
-            return verses[Math.floor(Math.random() * verses.length)];
-        }
-
-        function getNameFromURL() {
+        window.onload = () => {
             const params = new URLSearchParams(window.location.search);
-            return params.get('name') || 'Visitante';
-        }
+            document.getElementById('userName').innerText = params.get('name') || 'Visitante';
+            document.getElementById('currentDate').innerText = new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' });
+            const v = verses[Math.floor(Math.random() * verses.length)];
+            document.getElementById('userVerse').innerHTML = `"${v.t}" <br><strong>${v.r}</strong>`;
+        };
 
-        function formatDate() {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date().toLocaleDateString('pt-BR', options);
-        }
-
-        window.addEventListener('load', function() {
-            const name = getNameFromURL();
-            document.getElementById('participantName').textContent = name;
-
-            const verse = getRandomVerse();
-            document.getElementById('bibleVerse').textContent = `"${verse.text}"\n\n${verse.reference}`;
-
-            document.getElementById('certificateDate').textContent = formatDate();
-        });
-
-        function downloadPDF() {
-            const element = document.getElementById('certificate');
-            const buttonContainer = document.querySelector('.button-container');
-            const logoContainers = document.querySelectorAll('.logo-container');
+        function downloadPNG() {
+            const container = document.getElementById('certificate-container');
             
-            // Esconder botões e logos
-            buttonContainer.classList.add('hide-on-export');
-            logoContainers.forEach(logo => logo.classList.add('hide-on-export'));
-            
-            const opt = {
-                margin: 0,
-                filename: `certificado-${document.getElementById('participantName').textContent}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2 },
-                jsPDF: { orientation: 'landscape', unit: 'mm', format: 'a4' }
-            };
-            html2pdf().set(opt).from(element).save().then(() => {
-                // Mostrar botões e logos novamente
-                buttonContainer.classList.remove('hide-on-export');
-                logoContainers.forEach(logo => logo.classList.remove('hide-on-export'));
-            });
-        }
-
-        function downloadImage() {
-            const element = document.getElementById('certificate');
-            const buttonContainer = document.querySelector('.button-container');
-            const logoContainers = document.querySelectorAll('.logo-container');
-            
-            // Esconder botões e logos
-            buttonContainer.classList.add('hide-on-export');
-            logoContainers.forEach(logo => logo.classList.add('hide-on-export'));
-            
-            html2canvas(element, { scale: 2 }).then(canvas => {
+            // Forçamos o navegador a garantir que as imagens estão prontas
+            html2canvas(container, {
+                scale: 2, // Melhora a qualidade
+                useCORS: true, 
+                backgroundColor: "#ffffff",
+                imageTimeout: 0 // Evita que imagens demorem e fiquem em branco
+            }).then(canvas => {
                 const link = document.createElement('a');
-                link.href = canvas.toDataURL('image/jpeg');
-                link.download = `certificado-${document.getElementById('participantName').textContent}.jpg`;
+                link.download = `Certificado_${document.getElementById('userName').innerText}.png`;
+                link.href = canvas.toDataURL("image/png");
                 link.click();
-                
-                // Mostrar botões e logos novamente
-                buttonContainer.classList.remove('hide-on-export');
-                logoContainers.forEach(logo => logo.classList.remove('hide-on-export'));
             });
         }
     </script>
