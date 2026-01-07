@@ -25,7 +25,7 @@ document.getElementById('registration-form').addEventListener('submit', async fu
     formData.append('subject', 'Nova Inscrição para a Festividade');
     formData.append('from_name', 'Formulário Festividade');
     formData.append('name', name);
-    formData.append('email', email);
+    formData.append('email', email || 'sem-email@exemplo.com'); // Valor padrão
     formData.append('whatsapp', whatsapp);
     formData.append('igreja', igreja);
     formData.append('cargo', cargo);
@@ -38,8 +38,12 @@ document.getElementById('registration-form').addEventListener('submit', async fu
         });
 
         if (response.ok) {
-            // Redirecionar para success.html com o nome e email como parâmetros
-            window.location.href = `success.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
+            // Redirecionar para success.html com parâmetros
+            let url = `success.html?name=${encodeURIComponent(name)}`;
+            if (email && email.trim() !== '') {
+                url += `&email=${encodeURIComponent(email)}`;
+            }
+            window.location.href = url;
         } else {
             alert('Erro ao enviar inscrição. Tente novamente.');
         }

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscrição Confirmada - Festividade</title>
+    <!-- Bibliotecas para gerar PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Great+Vibes&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         * {
@@ -278,8 +279,8 @@
                 });
 
                 const imgData = canvas.toDataURL('image/png');
-                const jsPDFModule = window.jsPDF;
-                const { jsPDF } = jsPDFModule;
+                
+                // CORREÇÃO: Usar jsPDF corretamente (versão 1.5.3)
                 const pdf = new jsPDF({
                     orientation: 'landscape',
                     unit: 'mm',
@@ -326,7 +327,16 @@
             const email = params.get('email');
 
             if (name) {
+                // Verificar se o nome é válido
+                if (name.trim() === '' || name === 'undefined') {
+                    document.getElementById('statusMessage').textContent = '⚠️ Nome não reconhecido. Contate a organização.';
+                    return;
+                }
+                
+                // Gerar certificado apenas se tiver nome válido
                 generateAndSendCertificate(name, email || '');
+            } else {
+                document.getElementById('statusMessage').textContent = '⚠️ Informações de inscrição não encontradas.';
             }
         });
     </script>
