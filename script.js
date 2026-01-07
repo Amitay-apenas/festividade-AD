@@ -38,8 +38,8 @@ document.getElementById('registration-form').addEventListener('submit', async fu
         });
 
         if (response.ok) {
-            // Redirecionar para success.html com o nome como parâmetro
-            window.location.href = `success.html?name=${encodeURIComponent(name)}`;
+            // Redirecionar para success.html com o nome e email como parâmetros
+            window.location.href = `success.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}`;
         } else {
             alert('Erro ao enviar inscrição. Tente novamente.');
         }
