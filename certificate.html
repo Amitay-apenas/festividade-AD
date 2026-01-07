@@ -265,6 +265,33 @@
             text-align: center;
         }
 
+        /* Logos nos cantos */
+        .logo-container {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .logo-top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .logo-top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
         .button-container {
             position: absolute;
             bottom: 20px;
@@ -287,6 +314,11 @@
 
         .btn:hover {
             background: #8b7500;
+        }
+
+        /* Esconder elementos ao exportar */
+        .hide-on-export {
+            display: none;
         }
 
         @media print {
@@ -345,6 +377,14 @@
         <div class="corner-decoration corner-bottom-left">🍃</div>
         <div class="corner-decoration corner-bottom-right">🍃</div>
 
+        <!-- Logos nos cantos -->
+        <div class="logo-container logo-top-left">
+            <img src="image/logo-ad.png" alt="Logo AD">
+        </div>
+        <div class="logo-container logo-top-right">
+            <img src="image/logo-comadepd.png" alt="Logo Comadepd">
+        </div>
+
         <div class="certificate-content">
             <div class="certificate-title">Certificado</div>
             <div class="certificate-subtitle">Participação</div>
@@ -375,8 +415,8 @@
                 </div>
                 <div class="signature-block">
                     <div class="signature-line"></div>
-                    <div class="signature-name">Pastor José Carlos de Lima</div>
-                    <div class="signature-name" style="font-size: 10px;">Pastor Presidente</div>
+                    <div class="signature-name">Pastor João Venâncio</div>
+                    <div class="signature-name" style="font-size: 10px;">Pastor Local</div>
                 </div>
                 <div class="date-block">
                     <div id="certificateDate" style="margin-bottom: 20px;"></div>
@@ -473,6 +513,13 @@
 
         function downloadPDF() {
             const element = document.getElementById('certificate');
+            const buttonContainer = document.querySelector('.button-container');
+            const logoContainers = document.querySelectorAll('.logo-container');
+            
+            // Esconder botões e logos
+            buttonContainer.classList.add('hide-on-export');
+            logoContainers.forEach(logo => logo.classList.add('hide-on-export'));
+            
             const opt = {
                 margin: 0,
                 filename: `certificado-${document.getElementById('participantName').textContent}.pdf`,
@@ -480,16 +527,31 @@
                 html2canvas: { scale: 2 },
                 jsPDF: { orientation: 'landscape', unit: 'mm', format: 'a4' }
             };
-            html2pdf().set(opt).from(element).save();
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Mostrar botões e logos novamente
+                buttonContainer.classList.remove('hide-on-export');
+                logoContainers.forEach(logo => logo.classList.remove('hide-on-export'));
+            });
         }
 
         function downloadImage() {
             const element = document.getElementById('certificate');
+            const buttonContainer = document.querySelector('.button-container');
+            const logoContainers = document.querySelectorAll('.logo-container');
+            
+            // Esconder botões e logos
+            buttonContainer.classList.add('hide-on-export');
+            logoContainers.forEach(logo => logo.classList.add('hide-on-export'));
+            
             html2canvas(element, { scale: 2 }).then(canvas => {
                 const link = document.createElement('a');
-                link.href = canvas.toDataURL('image/png');
-                link.download = `certificado-${document.getElementById('participantName').textContent}.png`;
+                link.href = canvas.toDataURL('image/jpeg');
+                link.download = `certificado-${document.getElementById('participantName').textContent}.jpg`;
                 link.click();
+                
+                // Mostrar botões e logos novamente
+                buttonContainer.classList.remove('hide-on-export');
+                logoContainers.forEach(logo => logo.classList.remove('hide-on-export'));
             });
         }
     </script>
